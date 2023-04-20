@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
+using Newtonsoft.Json;
+
+class clsTeste
+{
+    public int codigo { get; set; }
+    public string descricao { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Ler o arquivo data.json e desserializar em uma lista de objetos clsTeste
+        string json = File.ReadAllText("data.json");
+        List<clsTeste> lista = JsonConvert.DeserializeObject<List<clsTeste>>(json);
+
+        // Criar o DataGridView e adicionar as colunas
+        DataGridView dataGridView = new DataGridView();
+        dataGridView.Dock = DockStyle.Fill;
+        dataGridView.AutoGenerateColumns = false;
+        dataGridView.Columns.Add("codigo", "Código");
+        dataGridView.Columns.Add("descricao", "Descrição");
+
+        // Adicionar as linhas ao DataGridView
+        foreach (clsTeste obj in lista)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            row.CreateCells(dataGridView);
+            row.Cells[0].Value = obj.codigo;
+            row.Cells[1].Value = obj.descricao;
+            dataGridView.Rows.Add(row);
+        }
+
+        // Criar o formulário e adicionar o DataGridView
+        Form form = new Form();
+        form.Text = "Dados";
+        form.Controls.Add(dataGridView);
+        form.ShowDialog();
+    }
+}
