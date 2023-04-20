@@ -1,0 +1,40 @@
+3)
+Crie uma lista contendo 100 itens de uma classe de nome clsTeste com as propriedades codigo
+como número e descricao como texto, os objetos deverão ser criados com a propriedade codigo
+com números sequenciais (ex: 1,2,3,4,5) e a descricao como a data e hora atual (ex: 2022/10/13
+08:50:22.123)
+----------------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+
+class clsTeste
+{
+    public int codigo { get; set; }
+    public string descricao { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Criar a lista de objetos clsTeste
+        List<clsTeste> lista = new List<clsTeste>();
+
+        // Adicionar 100 objetos à lista
+        for (int i = 1; i <= 100; i++)
+        {
+            clsTeste obj = new clsTeste();
+            obj.codigo = i;
+            obj.descricao = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
+            lista.Add(obj);
+        }
+
+        // Mostrar a lista na tela
+        foreach (clsTeste obj in lista)
+        {
+            Console.WriteLine("Código: {0}, Descrição: {1}", obj.codigo, obj.descricao);
+        }
+    }
+}
+
