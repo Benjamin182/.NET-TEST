@@ -1,0 +1,17 @@
+Faça a aplicação permitir a digitação de números e mostre esses números em tela de forma
+ordenada. 
+-------------------------------------------------------------------------------------------
+using System;
+
+class Program {
+  static void Main(string[] args) {
+    Console.WriteLine("Digite uma sequência de números separados por espaço:");
+    string input = Console.ReadLine();
+    string[] numbers = input.Split(' ');
+    Array.Sort(numbers);
+    Console.WriteLine("Números ordenados:");
+    foreach(string number in numbers) {
+      Console.WriteLine(number);
+    }
+  }
+}
