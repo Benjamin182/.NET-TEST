@@ -1,0 +1,61 @@
+7)
+Consuma a API para buscar a lista de bancos brasileiros
+Documentação: https://brasilapi.com.br/docs#tag/BANKS/paths/~1banks~1v1/get
+URL: https://brasilapi.com.br/api/banks/v1
+Mostre os dados de retorno da API em um Grid.
+----------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Newtonsoft.Json;
+
+class Program
+{
+    static async Task Main()
+    {
+        // Criar um cliente HTTP
+        var cliente = new HttpClient();
+
+        // Enviar uma requisição GET para a API
+        var resposta = await cliente.GetAsync("https://brasilapi.com.br/api/banks/v1");
+
+        // Ler o conteúdo da resposta como uma string JSON
+        var json = await resposta.Content.ReadAsStringAsync();
+
+        // Desserializar o JSON em uma lista de bancos
+        var bancos = JsonConvert.DeserializeObject<List<Banco>>(json);
+
+        // Criar um DataGridView para mostrar os dados dos bancos
+        var grid = new DataGridView();
+        grid.Dock = DockStyle.Fill;
+
+        // Adicionar as colunas do grid
+        grid.Columns.Add("codigo", "Código");
+        grid.Columns.Add("nome", "Nome");
+        grid.Columns.Add("ispb", "ISPB");
+
+        // Adicionar as linhas do grid com os dados dos bancos
+        foreach (var banco in bancos)
+        {
+            grid.Rows.Add(banco.codigo, banco.nome, banco.ispb);
+        }
+
+        // Criar um form para mostrar o grid
+        var form = new Form();
+        form.Text = "Bancos brasileiros";
+        form.Controls.Add(grid);
+
+        // Mostrar o form
+        Application.Run(form);
+    }
+
+    class Banco
+    {
+        public string codigo { get; set; }
+        public string nome { get; set; }
+        public string ispb { get; set; }
+    }
+}
