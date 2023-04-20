@@ -1,0 +1,65 @@
+8)
+Pela aplicação faça o download da imagem https://redeservice.com.br/wpcontent/uploads/2020/07/redeservice-logo.png, colocar na pasta do sistema, e criar alguma
+função para ler essa imagem e mostrar em tela no formato base64.
+---------------------------------------------------------------------------------------------------
+
+using System;
+using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Windows.Forms;
+
+class Program
+{
+    static void Main()
+    {
+        // URL da imagem a ser baixada
+        string imageUrl = "https://redeservice.com.br/wp-content/uploads/2020/07/redeservice-logo.png";
+        
+        // Nome do arquivo local para salvar a imagem
+        string fileName = "redeservice-logo.png";
+        
+        // Baixar a imagem da URL e salvar no arquivo local
+        using (var client = new WebClient())
+        {
+            client.DownloadFile(imageUrl, fileName);
+        }
+        
+        // Carregar a imagem do arquivo
+        Image image = Image.FromFile(fileName);
+        
+        // Converter a imagem em uma string base64
+        string base64 = ImageToBase64(image);
+        
+        // Criar um controle de imagem e exibir a imagem em formato base64
+        var pictureBox = new PictureBox();
+        pictureBox.Dock = DockStyle.Fill;
+        pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        pictureBox.Image = Base64ToImage(base64);
+        
+        // Criar uma janela para exibir o controle de imagem
+        var form = new Form();
+        form.Text = "Rede Service Logo";
+        form.Controls.Add(pictureBox);
+        Application.Run(form);
+    }
+    
+    static string ImageToBase64(Image image)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            image.Save(memoryStream, image.RawFormat);
+            byte[] bytes = memoryStream.ToArray();
+            return Convert.ToBase64String(bytes);
+        }
+    }
+    
+    static Image Base64ToImage(string base64)
+    {
+        byte[] bytes = Convert.FromBase64String(base64);
+        using (var memoryStream = new MemoryStream(bytes))
+        {
+            return Image.FromStream(memoryStream);
+        }
+    }
+}
