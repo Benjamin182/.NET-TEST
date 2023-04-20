@@ -1,0 +1,33 @@
+6)
+Consuma o webservice dos correios passando um CEP qualquer e mostre em tela o endereço que o
+mesmo retornar.
+Endereço: https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl
+Método: consultaCEP
+---------------------------------------------------------------------------------------------
+using System;
+using System.Windows.Forms;
+using AtendeCliente;
+
+class Program
+{
+    static void Main()
+    {
+        // Criar o cliente do serviço web dos Correios
+        var cliente = new AtendeClienteClient();
+
+        // Pedir para o usuário digitar um CEP
+        string cep = Microsoft.VisualBasic.Interaction.InputBox("Digite um CEP:");
+
+        // Chamar o método consultaCEP do serviço web para obter as informações do endereço
+        var resposta = cliente.consultaCEP(cep);
+
+        // Exibir as informações do endereço em uma mensagem de alerta
+        string mensagem = "Endereço encontrado:\n\n";
+        mensagem += "CEP: " + resposta.cep + "\n";
+        mensagem += "Logradouro: " + resposta.end + "\n";
+        mensagem += "Bairro: " + resposta.bairro + "\n";
+        mensagem += "Cidade: " + resposta.cidade + "\n";
+        mensagem += "Estado: " + resposta.uf;
+        MessageBox.Show(mensagem);
+    }
+}
