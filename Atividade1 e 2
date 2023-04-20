@@ -1,4 +1,7 @@
-
+1)
+Faça a aplicação permitir a digitação de números e mostre esses números em tela de forma
+ordenada. 
+----------------------------------------------------------------------------------------
 using System;
 
 class Program {
