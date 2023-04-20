@@ -1,0 +1,38 @@
+4)
+Grave a lista do item 3, em um arquivo de nome data.json na pasta raiz da aplicação.
+-------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.IO;
+
+class clsTeste
+{
+    public int codigo { get; set; }
+    public string descricao { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Criar a lista de objetos clsTeste
+        List<clsTeste> lista = new List<clsTeste>();
+
+        // Adicionar 100 objetos à lista
+        for (int i = 1; i <= 100; i++)
+        {
+            clsTeste obj = new clsTeste();
+            obj.codigo = i;
+            obj.descricao = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
+            lista.Add(obj);
+        }
+
+        // Serializar a lista em JSON e gravar no arquivo
+        string json = JsonConvert.SerializeObject(lista);
+        File.WriteAllText("data.json", json);
+
+        Console.WriteLine("Lista gravada em data.json.");
+    }
+}
